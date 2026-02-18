@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>N-Lunch Map</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <div class="app-container">
+        <section id="page-map" class="page active">
+            <header>
+                <div class="search-container">
+                    <input id="pac-input" type="text" placeholder="近くの店舗を検索...">
+                </div>
+                <div id="user-info" class="hidden">
+                    <img id="user-icon" src="" alt="icon">
+                </div>
+                <button id="login-btn" class="auth-btn">ログイン</button>
+            </header>
+            <div id="map-container" style="position: relative; flex: 1;">
+                <div id="map"></div>
+                <button id="current-location-btn" class="fab-btn">
+                    <span class="material-symbols-outlined">my_location</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="page-profile" class="page">
+            <div class="profile-container">
+                <button id="profile-back-btn" class="hidden" style="position: absolute; top: 10px; left: 10px; border: none; background: #eee; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; z-index: 10;">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </button>
+                
+                <div id="login-prompt" class="profile-card hidden" style="text-align: center; padding: 60px 20px;">
+                    <span class="material-symbols-outlined" style="font-size: 48px; color: #ccc; margin-bottom: 20px;">account_circle</span>
+                    <h3 style="margin-bottom: 20px; font-weight: 700;">マイページを利用するには<br>ログインが必要です</h3>
+                    <button id="login-btn-profile" class="save-btn" style="width: 200px; margin: 0 auto; display: block;">ログインする</button>
+                </div>
+
+                <div id="view-mode" class="profile-card">
+                    <button id="edit-profile-btn" class="edit-icon-btn">
+                        <span class="material-symbols-outlined">edit</span>編集
+                    </button>
+                    <div class="profile-main">
+                        <img id="display-photo" src="" alt="avatar">
+                        <div class="profile-titles">
+                            <h2 id="display-name">ユーザー名</h2>
+                            <div id="display-title-badge" class="title-badge">ビギナー</div>
+                            <div id="display-status-tag" class="status-tag">オフライン</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-info-grid">
+                        <div id="n-only-info" class="hidden" style="display: contents;">
+                            <div class="info-item"><strong>コース</strong><span id="display-course">未設定</span></div>
+                            <div class="info-item"><strong>学園</strong><span id="display-school">未設定</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="campus-display"><strong>拠点:</strong> <span id="display-campuses">未設定</span></div>
+                    
+                    <div class="sns-display-area">
+                        <div id="sns-x-chip" class="sns-chip hidden">X</div>
+                        <div id="sns-insta-chip" class="sns-chip hidden">Insta</div>
+                        <div id="sns-tiktok-chip" class="sns-chip hidden">TikTok</div>
+                    </div>
+                    
+                    <div id="display-genres" class="genre-tags"></div>
+                    
+                    <br>
+
+                    <div id="my-posts-section" class="profile-history-section">
+    <div id="my-posts-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 10px;">
+        <h3 style="margin:0;">自分の投稿履歴 (<span id="stat-posts">0</span>)</h3>
+        <span class="material-symbols-outlined arrow-icon" style="transition: transform 0.3s;">expand_more</span>
+    </div>
+    <div id="my-posts-list" class="history-grid hidden">
+        <p class="empty-msg">まだ投稿はありません</p>
+    </div>
+</div>
+
+                    <div class="wishlist-section" style="margin-top: 20px;">
+    <div id="wishlist-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 10px;">
+        <h3 style="margin:0;">行きたいところリスト (<span id="stat-wish">0</span>)</h3>
+        <span class="material-symbols-outlined arrow-icon" style="transition: transform 0.3s;">expand_more</span>
+    </div>
+    <div id="my-wishlist-list" class="wish-grid hidden"></div>
+</div>
+                    
+                    <button id="logout-btn-profile" class="logout-text">ログアウト</button>
+                </div>
+
+                <div id="edit-mode" class="profile-card hidden">
+                    <div class="edit-scroll">
+                        <h3>プロフィールの編集</h3>
+                        <div class="input-group"><label>アイコン変更</label><input type="file" id="edit-photo-file" accept="image/*"></div>
+                        <div class="input-group"><label>名前</label><input type="text" id="edit-name"></div>
+                        <div class="input-group">
+                            <label>コース</label>
+                            <select id="edit-course">
+                                <option value="通学コース">通学コース</option>
+                                <option value="ネットコース">ネットコース</option>
+                                <option value="オンライン通学コース">オンライン通学コース</option>
+                                <option value="通学プログラミングコース">通学プログラミングコース</option>
+                                <option value="一般ユーザー">一般ユーザー</option>
+                            </select>
+                        </div>
+                        
+                        <div id="n-student-fields" class="hidden">
+                            <div class="input-group">
+                                <label>本校</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="school" value="N高等学校"> N高</label>
+                                    <label><input type="radio" name="school" value="S高等学校"> S高</label>
+                                    <label><input type="radio" name="school" value="R高等学校"> R高</label>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>キャンパス (最大2つ)</label>
+                                <div class="campus-selector">
+                                    <label><input type="checkbox" name="campus" value="ところざわサクラタウン"> ところざわサクラタウン</label>
+                                    <label><input type="checkbox" name="campus" value="名古屋千種"> 名古屋千種</label>
+                                    <label><input type="checkbox" name="campus" value="江坂"> 江坂</label>
+                                    <label><input type="checkbox" name="campus" value="福岡博多"> 福岡博多</label>
+                                    <label><input type="checkbox" name="campus" value="その他"> その他</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>SNS ID</label>
+                            <div class="sns-inputs">
+                                <input type="text" id="edit-sns-x" placeholder="X ID">
+                                <input type="text" id="edit-sns-insta" placeholder="Instagram ID">
+                                <input type="text" id="edit-sns-tiktok" placeholder="TikTok ID">
+                            </div>
+                        </div>
+
+                        <div class="accordion">
+                            <div class="accordion-header" id="genre-accordion-btn">
+                                <span>好きなジャンル</span>
+                                <span class="material-symbols-outlined">expand_more</span>
+                            </div>
+                            <div class="accordion-content" id="genre-content">
+                                <div class="genre-selector">
+                                    <label><input type="checkbox" name="genre" value="ラーメン"> ラーメン</label>
+                                    <label><input type="checkbox" name="genre" value="カフェ"> カフェ</label>
+                                    <label><input type="checkbox" name="genre" value="コンビニ"> コンビニ</label>
+                                    <label><input type="checkbox" name="genre" value="定食屋"> 定食屋</label>
+                                    <label><input type="checkbox" name="genre" value="爆速飯"> 爆速飯</label>
+                                    <label><input type="checkbox" name="genre" value="スイーツ"> スイーツ</label>
+                                    <label><input type="checkbox" name="genre" value="ファミレス"> ファミレス</label>
+                                    <label><input type="checkbox" name="genre" value="パン屋"> パン屋</label>
+                                    <label><input type="checkbox" name="genre" value="カレー"> カレー</label>
+                                    <label><input type="checkbox" name="genre" value="麺類"> 麺類</label>
+                                    <label><input type="checkbox" name="genre" value="多国籍"> 多国籍</label>
+                                    <label><input type="checkbox" name="genre" value="持ち帰り"> 持ち帰り</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group"><label>今のステータス</label><input type="text" id="edit-status-input"></div>
+                    </div>
+                    <div class="edit-footer">
+                        <button id="save-profile-btn" class="save-btn">保存して戻る</button>
+                        <button id="cancel-edit-btn" style="background:none; border:none; color:#666; margin-top:10px; width:100%; cursor:pointer;">キャンセル</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <nav class="bottom-nav">
+            <div class="nav-item active" data-target="page-map"><span class="material-symbols-outlined">map</span><span>マップ</span></div>
+            <div class="nav-item" data-target="page-profile"><span class="material-symbols-outlined">person</span><span>マイ</span></div>
+        </nav>
+    </div>
+
+    <div id="save-modal" class="modal">
+        <div class="modal-content">
+            <div id="modal-view-main">
+                <h3 id="modal-place-name"></h3>
+                <div class="google-rating-area" style="display: flex; gap: 8px; align-items: center; margin-bottom: 5px;">
+                    <div id="modal-place-rating" style="color:#f1c40f; font-weight: bold;"></div>
+                    <div id="google-review-count" style="font-size: 0.8rem; color: #666;"></div>
+                </div>
+                <div id="modal-place-hours"></div>
+                <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
+                <div class="n-review-section">
+                    <h4 style="display: flex; align-items: center; gap: 8px;">
+                        N高生のレビュー 
+                        <span id="n-review-count-badge" style="background: #0055aa; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem;">0</span>
+                    </h4>
+                    <div id="n-review-list" class="n-review-list"></div>
+                </div>
+                <div class="modal-btns">
+                    <button id="add-wish-btn" class="secondary-btn">行きたいリストへ</button>
+                    <a id="open-google-maps" href="" target="_blank" class="google-maps-link">
+                        <span class="material-symbols-outlined">open_in_new</span>Googleマップ
+                    </a>
+                    <button id="open-post-btn" class="primary-btn hidden">情報を登録する</button>
+                    <button id="close-modal-btn">閉じる</button>
+                </div>
+            </div>
+
+            <div id="modal-post-form" class="hidden">
+                <h3>N高生レビュー登録</h3>
+                <div class="input-group">
+                    <label>時間帯</label>
+                    <select id="post-time"><option value="ランチ">ランチ</option><option value="ディナー">ディナー</option></select>
+                </div>
+                <div class="input-group">
+                    <label>価格帯</label>
+                    <select id="post-price">
+                        <option value="1000円以下">1000円以下</option>
+                        <option value="1500円以下">1500円以下</option>
+                        <option value="2000円以下">2000円以下</option>
+                        <option value="2000円以上">2000円以上</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>混雑・シーン（複数可）</label>
+                    <div class="scene-selector" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: #f9f9f9; padding: 10px; border-radius: 8px;">
+                        <label style="font-size: 0.8rem;"><input type="checkbox" name="scene" value="1人で入れる"> 1人で入れる</label>
+                        <label style="font-size: 0.8rem;"><input type="checkbox" name="scene" value="グループ向け"> グループ向け</label>
+                        <label style="font-size: 0.8rem;"><input type="checkbox" name="scene" value="静か(作業可)"> 静か(作業可)</label>
+                        <label style="font-size: 0.8rem;"><input type="checkbox" name="scene" value="賑やか"> 賑やか</label>
+                        <label style="font-size: 0.8rem;"><input type="checkbox" name="scene" value="予約推奨"> 予約推奨</label>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>キャンパスから</label>
+                    <select id="post-distance">
+                        <option value="すぐ">すぐ</option><option value="5分">5分</option>
+                        <option value="10分">10分</option><option value="15分">15分</option>
+                        <option value="それ以上">それ以上</option>
+                    </select>
+                </div>
+                <div class="input-group"><label>口コミ</label><textarea id="post-comment" placeholder="おすすめメニューなど"></textarea></div>
+                <div class="modal-btns">
+                    <button id="submit-post-btn" class="primary-btn">登録する</button>
+                    <button id="back-to-view-btn">キャンセル</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJL2DJQkFZ_yxAxcNiQJM_knsiLvcNBd0&libraries=places&loading=async&callback=initMap"></script>
+</body>
+</html>
