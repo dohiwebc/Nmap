@@ -1,0 +1,1219 @@
+body, html { height: 100%; margin: 0; font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f2f5; color: #333; overflow: hidden; }
+
+header {
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+    z-index: 10; width: 90%; max-width: 420px; text-align: center;
+}
+
+.search-container input {
+    width: 100%; padding: 12px 20px; border-radius: 25px; border: none;
+    background: #ffffff; color: #333;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-size: 16px; outline: none;
+    box-sizing: border-box;
+}
+
+/* ログイン制限中の入力欄 */
+#pac-input:disabled {
+    background: #e0e0e0;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.auth-container { margin: 10px 0; }
+.auth-btn {
+    background: #0055aa; color: white; border: none; padding: 8px 20px;
+    border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 12px;
+}
+#user-info { display: flex; align-items: center; justify-content: center; gap: 10px; }
+#user-icon { width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; }
+#logout-btn { background: none; border: 1px solid #999; color: #666; font-size: 10px; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+
+.filter-container { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+.filter-btn {
+    background: #ffffff; border: 1px solid #ddd; color: #666;
+    padding: 6px 12px; border-radius: 15px; font-size: 12px; cursor: pointer;
+}
+.filter-btn.active { background: #0055aa; color: #fff; border-color: #0055aa; }
+
+#map { height: 100%; width: 100%; }
+
+.modal {
+    display: none; position: fixed; z-index: 100; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); justify-content: center; align-items: center;
+}
+.modal-content {
+    background: #ffffff; padding: 25px; border-radius: 20px; width: 85%; max-width: 350px;
+}
+.hidden { display: none !important; }
+
+/* 吹き出し内の文字色 */
+.gm-style-iw { color: #333 !important; }
+
+/* これが抜けていると、地図の入れ物が潰れて表示されません */
+#map {
+    height: 100vh; /* 画面いっぱいの高さ */
+    width: 100%;
+}
+
+/* body自体に高さがない場合も表示されないことがあります */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* 吹き出し内のデザイン */
+.info-window {
+    padding: 10px;
+    color: #333;
+}
+.info-price { color: #e67e22; font-weight: bold; }
+.info-rating { color: #f1c40f; }
+.heart-btn {
+    background: none; border: none; font-size: 20px; cursor: pointer; color: #ccc;
+}
+.heart-btn.active { color: #e74c3c; }
+
+/* アプリ全体のコンテナ設定 */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* 全体のスクロールを防ぐ */
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* ページの切り替え設定 */
+.page {
+    display: none; /* 基本は隠す */
+    flex: 1;
+    overflow-y: auto; /* ページ内だけスクロール可能に */
+    padding-bottom: 70px; /* ナビの高さ分だけ余白を作る */
+}
+
+.page.active {
+    display: block; /* activeクラスがついたページだけ表示 */
+}
+
+/* マップページ専用の設定 */
+#page-map.active {
+    display: flex;
+    flex-direction: column;
+}
+
+#map {
+    flex: 1;
+    width: 100%;
+}
+
+/* ボトムナビゲーションのスタイル */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 1000; /* マップより上に表示 */
+}
+
+.nav-item {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    cursor: pointer;
+    padding: 10px 0;
+    transition: 0.3s;
+}
+
+.nav-item.active {
+    color: #0055aa;
+    font-weight: bold;
+}
+
+/* ユーティリティ */
+.hidden {
+    display: none !important;
+}
+
+/* ナビゲーションを常に最前面に固定 */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background: rgba(255, 255, 255, 0.95); /* 少し透けさせてオシャレに */
+    backdrop-filter: blur(10px); /* 背景をぼかす */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #eee;
+    z-index: 9999; /* 何があっても一番上 */
+    padding-bottom: env(safe-area-inset-bottom); /* iPhoneのバー対策 */
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #8e8e93;
+    transition: all 0.2s ease;
+}
+
+.nav-item.active {
+    color: #0055aa;
+}
+
+.nav-item .material-symbols-outlined {
+    font-size: 28px;
+    margin-bottom: 2px;
+}
+
+.nav-item span:not(.material-symbols-outlined) {
+    font-size: 10px;
+    font-weight: 500;
+}
+
+/* マップがナビに被らないように調整 */
+#page-map {
+    height: 100vh;
+    width: 100%;
+}
+
+#map {
+    height: calc(100vh - 65px); /* 全体からナビの高さを引く */
+    width: 100%;
+}
+
+:root {
+    --primary-color: #0055aa; /* N高ブルー */
+    --bg-color: #f0f5ff;      /* 青みがかった白 */
+    --card-bg: #ffffff;
+    --text-main: #333333;
+    --text-sub: #666666;
+}
+
+#page-profile {
+    background-color: var(--bg-color);
+    min-height: 100vh;
+}
+
+.profile-container {
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.profile-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 30px 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+/* ヘッダー・アイコン */
+.profile-header { position: relative; }
+#display-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid var(--bg-color);
+    object-fit: cover;
+}
+
+/* バッジスタイル */
+.badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin: 5px;
+    font-weight: bold;
+}
+.badge.school { background: var(--primary-color); color: white; }
+.badge.campus { background: #e0eaff; color: var(--primary-color); }
+
+/* 統計エリア */
+.profile-stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    padding: 15px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+.stat-item { display: flex; flex-direction: column; }
+.stat-item span { font-size: 20px; font-weight: bold; color: var(--primary-color); }
+
+/* ボタン */
+.main-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    width: 100%;
+    cursor: pointer;
+}
+
+.list-item-with-delete {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f8faff;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.delete-item-btn {
+    background: none;
+    border: none;
+    color: #ff4444;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.delete-item-btn:hover {
+    opacity: 0.7;
+}
+
+.status-tag {
+    background: #eef2ff;
+    color: #0055aa;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+/* プロフィール全体の背景 */
+.profile-container {
+    background-color: #f0f4f8; /* 青みがかった白 */
+    padding: 20px;
+    min-height: 100%;
+}
+
+/* 行きたいリストのカードUI */
+.wish-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #0055aa;
+}
+
+.wish-name {
+    display: block;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.wish-tag {
+    font-size: 0.7rem;
+    color: #778899;
+    background: #eef2f6;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.wish-delete-btn {
+    background: #fff0f0;
+    color: #ff4444;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.wish-delete-btn:hover {
+    background: #ff4444;
+    color: white;
+}
+
+/* ステータスタグの装飾 */
+.status-tag.active-status {
+    background: linear-gradient(135deg, #0055aa, #00aaff);
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 85, 170, 0.3);
+}
+
+/* マップ上の評価表示 */
+.place-rating {
+    color: #f1c40f;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+/* プロフィール全体の背景 */
+.profile-container {
+    background-color: #f0f4f8; /* 青みがかった白 */
+    padding: 20px;
+    height: calc(100% - 60px);
+    overflow-y: auto;
+}
+
+/* 行きたいリストのカードUI */
+.wish-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 12px 15px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #0055aa;
+}
+
+.wish-name {
+    display: block;
+    font-weight: bold;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.wish-tag {
+    font-size: 0.7rem;
+    color: #0055aa;
+    background: #eef2ff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+.wish-delete-btn {
+    background: #fff0f0;
+    color: #ff4444;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ステータスタグの装飾 */
+.status-tag {
+    background: linear-gradient(135deg, #0055aa, #00aaff);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* マップの登録ボタン */
+.map-reg-btn {
+    background: #0055aa;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* プロフィールコンテナに基準位置を設定 */
+.profile-card {
+    position: relative; /* これを追記 */
+    background: #ffffff;
+    padding: 30px 20px 20px 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* 編集ボタンを右上に配置 */
+#edit-profile-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: auto;      /* 横幅いっぱいを解除 */
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 30px; /* 丸みのあるデザイン */
+    background: #eef2ff; /* 薄い青 */
+    color: #0055aa;      /* 濃い青 */
+    border: 1px solid rgba(0, 85, 170, 0.1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#edit-profile-btn:hover {
+    background: #0055aa;
+    color: #ffffff;
+}
+
+/* ステータスタグの位置がボタンと被らないよう少し調整 */
+#display-status-tag {
+    margin-top: 8px;
+    display: inline-block;
+}
+
+/* プロフィール全体 */
+.profile-container { background: #f4f7f9; min-height: 100vh; padding: 20px; }
+.profile-card { background: white; border-radius: 24px; padding: 20px; position: relative; box-shadow: 0 4px 20px rgba(0,85,170,0.06); }
+
+/* 編集ボタンを右上に */
+.edit-icon-btn { position: absolute; top: 20px; right: 20px; border: none; background: #eef2ff; color: #0055aa; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+
+.profile-main { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+#display-photo { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+
+/* 称号バッジ */
+.title-badge { font-size: 0.7rem; color: #0055aa; background: #eef2ff; padding: 2px 8px; border-radius: 4px; font-weight: bold; display: inline-block; margin-bottom: 4px; }
+
+/* 行きたいリストのタイルデザイン */
+.wish-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+.wish-tile { background: white; border: 1px solid rgba(0,85,170,0.1); border-radius: 16px; padding: 12px; display: flex; align-items: center; gap: 10px; position: relative; transition: 0.2s; }
+.wish-tile:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,85,170,0.1); }
+.wish-tile-icon { background: #0055aa; color: white; width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.wish-tile-icon span { font-size: 18px; }
+.wish-tile-name { font-size: 0.85rem; font-weight: bold; color: #333; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80px; }
+.wish-tile-del { position: absolute; top: -5px; right: -5px; background: white; border: 1px solid #ddd; width: 22px; height: 22px; border-radius: 50%; color: #999; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+/* ジャンルチップ */
+.genre-chip { display: inline-block; background: #f0f2f5; color: #555; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; margin-right: 6px; margin-bottom: 6px; }
+
+/* 編集モードのグリッド選択 */
+.genre-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+/* アコーディオン */
+.accordion { border: 1px solid #ddd; border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
+.accordion-header { background: #f9f9f9; padding: 12px; display: flex; justify-content: space-between; cursor: pointer; font-weight: bold; }
+.accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: white; }
+.accordion-content.open { max-height: 500px; padding: 12px; }
+
+/* SNS入力 */
+.sns-inputs input { width: 100%; margin-bottom: 8px; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
+.sns-chip { display: inline-block; background: #eef2ff; color: #0055aa; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; margin-right: 5px; font-weight: bold; }
+
+/* 行きたいリストの店名全部読める化 */
+.wish-tile-body { flex: 1; padding-right: 10px; }
+.wish-tile-name { 
+    font-size: 0.8rem; 
+    font-weight: bold; 
+    color: #333; 
+    display: block; 
+    word-break: break-all; /* 単語の途中でも改行 */
+    line-height: 1.2;
+    /* 三点リーダーを解除 */
+    white-space: normal; 
+}
+
+/* タイルの高さを自動調整 */
+.wish-tile { min-height: 60px; height: auto; align-items: flex-start; }
+
+/* キャンパス選択用グリッド */
+.campus-selector {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    background: #fdfdfd;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+}
+
+.campus-selector label {
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.campus-display {
+    margin: 10px 0;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+#display-campuses {
+    color: #0055aa;
+    font-weight: bold;
+}
+
+/* レビュー表示 */
+.n-review-list { max-height: 200px; overflow-y: auto; margin: 10px 0; }
+.review-card { background: #f8fafc; border-left: 4px solid #0055aa; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.85rem; }
+.review-header { color: #0055aa; font-weight: bold; margin-bottom: 4px; }
+.review-meta { font-size: 0.75rem; color: #666; margin-bottom: 6px; }
+.review-comment { line-height: 1.4; color: #333; }
+.review-footer { text-align: right; font-size: 0.7rem; color: #999; margin-top: 5px; }
+
+/* 投稿フォームのシーン選択 */
+.scene-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; background: #fff; padding: 10px; border: 1px solid #eee; border-radius: 8px; }
+.scene-selector label { font-size: 0.8rem; display: flex; align-items: center; gap: 5px; }
+
+/* モーダル内ボタン */
+.primary-btn { background: #0055aa; color: white; border: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; }
+.secondary-btn { background: #eef2ff; color: #0055aa; border: 1px solid #0055aa; padding: 10px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; }
+.hidden { display: none !important; }
+
+.fab-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #0055aa;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+}
+.fab-btn:active { transform: scale(0.95); }
+.n-review-list { max-height: 400px; overflow-y: auto; padding-right: 5px; }
+
+.google-maps-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    background-color: #f1f3f4;
+    color: #3c4043;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    border: 1px solid #dadce0;
+    transition: background-color 0.2s;
+}
+.google-maps-link:hover {
+    background-color: #e8eaed;
+}
+.google-maps-link .material-symbols-outlined {
+    font-size: 18px;
+}
+
+/* 全体のフォントを明朝体に変更 */
+body {
+    font-family: 'Noto Serif JP', serif;
+    background-color: #fcfaf5; /* 少し温かみのある白にすると明朝体が映えます */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* タイトルや強調したい部分は太めの明朝に */
+h1, h2, h3, .profile-titles h2, #modal-place-name {
+    font-weight: 700;
+    letter-spacing: 0.05em; /* 文字の間隔を少し広げるとおしゃれに見えます */
+}
+
+/* ボタン類もフォントを統一 */
+button, input, select, textarea {
+    font-family: 'Noto Serif JP', serif;
+}
+
+/* 投稿カードや履歴カードのコメント部分 */
+.review-card p, .history-card p {
+    line-height: 1.8; /* 行間を広めに取ると読みやすく、上品になります */
+    font-size: 0.9rem;
+}
+
+/* 補足：アイコンなどの装飾 */
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined' !important; /* アイコンが文字化けしないように固定 */
+}
+
+/* モーダルの外枠を画面内に収める */
+.modal-content {
+    max-height: 90vh; /* 画面の高さの90%を最大にする */
+    overflow-y: auto; /* 縦方向にスクロールを許可 */
+    margin: 20px auto;
+    padding: 20px;
+    position: relative;
+}
+
+/* フォーム内のテキストエリアなども、スマホで入力しやすいように調整 */
+#post-comment {
+    min-height: 100px;
+}
+
+/* モーダルの中身をスクロール可能に */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center; /* 中央寄せ */
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    width: 90%;
+    max-width: 500px;
+    /* 画面の高さの85%を上限にし、超えたらスクロール */
+    max-height: 85vh; 
+    overflow-y: auto; 
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* スクロールバーを少し綺麗にする（任意） */
+.modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+}
+
+/* 登録フォーム内の要素間隔をスマホ向けに調整 */
+.input-group {
+    margin-bottom: 15px;
+}
+
+#post-comment {
+    width: 100%;
+    height: 80px; /* 高さを抑えてスクロールしやすく */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* マップ画面のスクロール設定 */
+.main-content-scroll {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: #fff;
+}
+
+/* 地図の高さ固定（リストを見えやすくするため） */
+#map-container {
+    position: relative;
+    height: 350px;
+    width: 100%;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+/* 人気スポットセクションの装飾 */
+#nearby-section {
+    padding: 20px 15px;
+}
+
+#nearby-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Noto Serif JP', serif;
+    color: #333;
+}
+
+#nearby-section h3 .material-symbols-outlined {
+    color: #e74c3c;
+    font-variation-settings: 'FILL' 1;
+}
+
+.loading-msg {
+    text-align: center;
+    color: #999;
+    font-size: 0.8rem;
+    padding: 20px;
+}
+
+/* モーダルのスクロール対応（重要！） */
+.modal-content {
+    max-height: 85vh; /* 画面の高さの85%までに制限 */
+    overflow-y: auto; /* 中身がはみ出したらスクロール */
+    border-radius: 20px;
+}
+
+.bottom-spacer {
+    height: 80px;
+}
+
+/* 人気店カードのスタイル */
+.nearby-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.nearby-card:active {
+    background: #f5f5f5;
+}
+
+/* プロフィール画面全体をスクロール可能にする */
+#page-profile {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* プロフィールカードの中身も念のためスクロール対応 */
+.profile-card {
+    max-height: none; /* カード自体は内容に合わせて伸ばす */
+    padding-bottom: 100px; /* 一番下のボタンがナビに被らないよう余白 */
+}
+
+/* 【重要】店舗登録（モーダル）のスクロール設定 */
+.modal-content {
+    max-height: 85vh; /* 画面の高さの85%までに制限 */
+    overflow-y: auto; /* はみ出したらスクロール */
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 編集モードのスクロールエリア */
+.edit-scroll {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 5px;
+    margin-bottom: 15px;
+}
+
+/* モーダルの中身をスクロール可能にする */
+.modal-content {
+    max-height: 85vh; /* 画面高さの85%を最大にする */
+    overflow-y: auto; /* はみ出したらスクロール */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 登録フォームの入力エリア（口コミなど）の調整 */
+#post-comment {
+    min-height: 80px;
+    max-height: 150px;
+}
+
+
+/* 引き出しの「つまみ」 */
+.handle {
+    width: 40px;
+    height: 4px;
+    background: #ddd;
+    border-radius: 2px;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+.sheet-header {
+    padding: 0 15px 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.sheet-header h3 {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.sheet-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+/* --- ページ全体の構造修正 --- */
+.page {
+    display: none;
+    flex-direction: column;
+    height: calc(100vh - 70px); /* タブバーの高さ(約70px)を引いた全画面 */
+    overflow: hidden; /* ページ自体は固定 */
+}
+
+.page.active {
+    display: flex;
+}
+
+/* --- マイページをスクロール可能にする --- */
+#page-profile {
+    overflow-y: auto; /* 縦スクロールを許可 */
+    padding-bottom: 20px;
+    -webkit-overflow-scrolling: touch; /* iOS用スムーズスクロール */
+}
+
+
+
+/* タブバーとの干渉を防ぐ（タブバーが position: fixed の場合） */
+.nav-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 1100; /* ボトムシートより上に置くか、下に置くかで数値を調整 */
+}
+
+/* ページ全体の高さを固定し、タブバー分を確保 */
+.page {
+    display: none;
+    height: calc(100vh - 70px);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto; /* マイページなどがスクロール可能に */
+    background: #fff;
+}
+
+.page.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* マップ画面だけはページ自体のスクロールを止める（地図を動かすため） */
+#page-map {
+    overflow: hidden;
+}
+
+/* マップコンテナ内の絶対配置要素 */
+#map-container {
+    flex: 1;
+    position: relative;
+    width: 100%;
+}
+
+/* 現在地ボタン：ボトムシートに被らない高さ */
+.fab-btn {
+    position: absolute;
+    right: 15px;
+    bottom: 140px; 
+    z-index: 10;
+}
+
+/* タブバーの重なり順を確実に一番上にする */
+.nav-bar {
+    position: fixed;
+    bottom: 0;
+    z-index: 1000;
+    height: 70px;
+    background: #fff;
+    border-top: 1px solid #eee;
+}
+
+/* --- ページ全体の高さを固定（タブバー 70px を考慮） --- */
+.page {
+    display: none;
+    height: calc(100vh - 70px); /* 画面全体からタブバー分を引く */
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto; /* ここでマイページ全体のスクロールを許可 */
+    -webkit-overflow-scrolling: touch;
+}
+
+.page.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- マップ画面：地図を全画面にするためスクロールを禁止 --- */
+#page-map {
+    overflow: hidden; 
+}
+
+/* --- 現在地ボタン：ボトムシート（閉じている時）より上に配置 --- */
+#current-location-btn, .fab-btn {
+    position: absolute;
+    right: 15px;
+    bottom: 130px; /* ボトムシートのつまみより上に逃がす */
+    z-index: 10;
+}
+
+
+
+/* --- マイページのアコーディオン：二重スクロール防止 --- */
+#my-posts-list, #my-wishlist-list {
+    overflow: visible; /* リスト自体にスクロールを持たせない */
+    max-height: none;  /* 高さを制限せず、.page にスクロールさせる */
+}
+
+/* --- タブバー：最前面に固定 --- */
+.nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 1000;
+    background: #fff;
+    border-top: 1px solid #eee;
+}
+
+/* ボトムシート関連（.bottom-sheetなど）は全て削除してOK */
+
+.page {
+    display: none;
+    height: calc(100vh - 70px);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    overflow-y: auto;
+    background: #fff;
+}
+
+.page.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 検索ページの中身をスクロール可能に */
+.scroll-content {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+/* 現在地ボタンの位置を調整（ボトムシートがなくなったので少し下げる） */
+#current-location-btn {
+    position: absolute;
+    right: 15px;
+    bottom: 20px; /* タブバーのすぐ上 */
+    z-index: 10;
+}
+
+/* マイページ（または検索ページ）全体のスクロール設定 */
+.page {
+    display: none;
+    height: calc(100vh - 70px);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto; /* ページ全体でスクロールさせる */
+    overflow-x: hidden; /* 横揺れ防止 */
+    background: #f8f9fa; /* 背景を少しグレーにすると白い枠が映えます */
+}
+
+/* 白い枠（履歴やリストのカード）の共通設定 */
+#my-posts-list, #my-wishlist-list, .history-card, .wish-tile {
+    width: 100%;
+    max-width: 600px; /* PCなど大画面での上限 */
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box; /* パディングを含めて幅を計算 */
+}
+
+/* リストの中身：ここが二重スクロールの犯人なので overflow を visible に */
+#my-posts-list, #my-wishlist-list {
+    overflow: visible !important; 
+    height: auto !important;
+    max-height: none !important;
+    padding: 10px;
+}
+
+/* アコーディオンの親要素（白い枠） */
+.profile-section {
+    background: #fff;
+    width: 95%; /* 左右に少し余白を作る */
+    max-width: 600px;
+    margin: 10px auto;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden; /* 中身がはみ出さないように */
+}
+
+/* --- 1. 基本レイアウト（二重スクロール防止の肝） --- */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* ブラウザ自体のスクロールを止める */
+}
+
+.page {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* タブバー(70px)を引いた高さで固定 */
+    height: calc(100vh - 70px); 
+    background: #f8f9fa;
+    /* ページごとに独立してスクロールさせる */
+    overflow-y: auto; 
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.page.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* マップだけは全画面表示したいのでスクロール不要 */
+#page-map { overflow: hidden; }
+
+/* --- 2. 白い枠（カード）の横幅固定 --- */
+.profile-section, .history-card, .wish-tile, .nearby-card {
+    width: 92%;         /* 画面の92%を使い、左右に余白 */
+    max-width: 500px;   /* 広がりすぎない上限 */
+    margin: 12px auto;  /* 中央寄せ */
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-sizing: border-box; /* paddingで幅が変わるのを防ぐ */
+}
+
+/* アコーディオンの中身（二重スクロールの犯人を無効化） */
+#my-posts-list, #my-wishlist-list {
+    overflow: visible !important;
+    max-height: none !important;
+    width: 100% !important;
+    padding: 0;
+}
+
+/* --- 3. 固定パーツ --- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
+    background: #fff;
+    display: flex;
+    border-top: 1px solid #eee;
+    z-index: 1000;
+}
+
+#current-location-btn {
+    position: absolute;
+    right: 20px;
+    bottom: 90px; /* タブバーの上 */
+    z-index: 10;
+}
+
+/* 検索ページの背景とスクロール制御 */
+#page-search {
+    background-color: #f5f7f9;
+}
+
+/* キャンパス選択セレクトボックスの装飾 */
+#campus-selector {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
+
+/* ソートボタンのデザイン */
+.sort-tabs {
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.sort-btn {
+    color: #666;
+    background: transparent;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+/* 選択されているソートボタンのスタイル */
+.sort-btn.active {
+    background: #ffffff !important;
+    color: #0055aa !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 検索結果カードのデザイン */
+.search-item-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    border: 1px solid #edf0f2;
+    cursor: pointer;
+    transition: transform 0.1s active;
+}
+
+.search-item-card:active {
+    transform: scale(0.98);
+    background-color: #fafafa;
+}
+
+/* カード内のテキスト配置 */
+.search-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.search-item-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #333;
+    flex: 1;
+    margin-right: 10px;
+}
+
+.search-item-time {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #0055aa;
+    white-space: nowrap;
+    background: #eef5ff;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.search-item-stats {
+    display: flex;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.stat-val {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
